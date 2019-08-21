@@ -6,8 +6,7 @@ INSERT INTO unit_of_measure (description) VALUES ('Teaspoon');
 INSERT INTO unit_of_measure (description) VALUES ('Tablespoon');
 INSERT INTO unit_of_measure (description) VALUES ('Cup');
 INSERT INTO unit_of_measure (description) VALUES ('Pinch');
-<<<<<<< HEAD
 INSERT INTO unit_of_measure (description) VALUES ('Ounce');
-=======
-INSERT INTO unit_of_measure (description) VALUES ('Ounce');
->>>>>>> 565b34a8d61c074fbcfc91ef87a6e182c285eadb
+INSERT INTO unit_of_measure (description) VALUES ('Clove');
+INSERT INTO unit_of_measure (description) VALUES ('Pint');
+
