@@ -1,36 +1,33 @@
 package guru.springframework.controllers;
 
-import guru.springframework.domain.Category;
-import guru.springframework.domain.UnitOfMeasure;
-import guru.springframework.repositories.CategoryRepository;
-import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.domain.Recipe;
+import guru.springframework.services.RecipeListerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
+import java.util.Set;
 
-/**
- * Created by jt on 6/1/17.
- */
 @Controller
 public class IndexController {
 
-    private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
+    private final RecipeListerService recipeListerService;
+    private static Logger log = LoggerFactory.getLogger(IndexController.class);
 
-    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
-        this.categoryRepository = categoryRepository;
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
+    public IndexController(RecipeListerService recipeListerService) {
+
+        this.recipeListerService = recipeListerService;
     }
 
     @RequestMapping({"", "/", "/index"})
-    public String getIndexPage(){
+    public String getIndexPage(Model model) {
+        log.debug("Getting index page");
 
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
-
-        System.out.println("Category ID is: " + categoryOptional.get().getId());
-        System.out.println("Unit of Measure ID is: " + unitOfMeasureOptional.get().getId());
+        Set<Recipe> recipes = recipeListerService.getRecipeList();
+        model.addAttribute("recipes", recipes);
 
         return "index";
     }

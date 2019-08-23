@@ -2,32 +2,39 @@ package guru.springframework.bootstrap;
 
 import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
+import guru.springframework.repositories.NotesRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.*;
 
 @Component
-public class DataLoader implements CommandLineRunner {
+public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private RecipeRepository recipeRepository;
     private CategoryRepository categoryRepository;
+    private NotesRepository notesRepository;
     private UnitOfMeasureRepository unitOfMeasureRepository;
     private Map<String, UnitOfMeasure> unitsOfMeasure = new HashMap<>();
 
-    public DataLoader(RecipeRepository recipeRepository, CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public DataLoader(RecipeRepository recipeRepository, CategoryRepository categoryRepository, NotesRepository notesRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         this.recipeRepository = recipeRepository;
         this.categoryRepository = categoryRepository;
+        this.notesRepository = notesRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        loadGuacamoleRecipe();
-        loadTacoRecipe();
+    @Transactional
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        recipeRepository.save(loadGuacamoleRecipe());
+        recipeRepository.save(loadTacoRecipe());
     }
 
     private UnitOfMeasure getUom(String description) {
@@ -40,51 +47,60 @@ public class DataLoader implements CommandLineRunner {
         return unitsOfMeasure.get(description);
     }
 
-    private void loadGuacamoleRecipe() {
+    private Recipe loadGuacamoleRecipe() {
         Recipe recipe = new Recipe();
+        recipe.setDescription("Perfect Guacamole");
 
         Ingredient avocados = new Ingredient();
         avocados.setAmount(BigDecimal.valueOf(2));
         avocados.setDescription("avocados");
+        avocados.setRecipe(recipe);
         recipe.getIngredients().add(avocados);
         
         Ingredient salt = new Ingredient();
         salt.setAmount(BigDecimal.valueOf(.5));
         salt.setUom(getUom("Teaspoon"));
         salt.setDescription("kosher salt");
+        salt.setRecipe(recipe);
         recipe.getIngredients().add(salt);
         
         Ingredient juice = new Ingredient();
         juice.setAmount(BigDecimal.valueOf(1));
         juice.setUom(getUom("Tablespoon"));
         juice.setDescription("fresh lime or lemon juice");
+        juice.setRecipe(recipe);
         recipe.getIngredients().add(juice);
         
         Ingredient onion = new Ingredient();
         onion.setAmount(BigDecimal.valueOf(2));
         onion.setUom(getUom("Tablespoon"));
         onion.setDescription("minced red onion or thinly sliced green onion");
+        onion.setRecipe(recipe);
         recipe.getIngredients().add(onion);
         
         Ingredient chiles = new Ingredient();
         chiles.setAmount(BigDecimal.valueOf(1));
         chiles.setDescription("serrano chiles, stems and seeds removed, minced");
+        chiles.setRecipe(recipe);
         recipe.getIngredients().add(chiles);
         
         Ingredient cilantro = new Ingredient();
         cilantro.setAmount(BigDecimal.valueOf(2));
         cilantro.setUom(getUom("Tablespoon"));
         cilantro.setDescription("cilantro (leaves and tender stems), finely chopped");
+        cilantro.setRecipe(recipe);
         recipe.getIngredients().add(cilantro);
         
         Ingredient pepper = new Ingredient();
         pepper.setUom(getUom("Dash"));
         pepper.setDescription("freshly ground pepper");
+        pepper.setRecipe(recipe);
         recipe.getIngredients().add(pepper);
         
         Ingredient tomato = new Ingredient();
         tomato.setAmount(BigDecimal.valueOf(.5));
         tomato.setDescription("tomato, seeds and pulp removed, chopped");
+        tomato.setRecipe(recipe);
         recipe.getIngredients().add(tomato);
         
         recipe.setDirections(
@@ -117,6 +133,7 @@ public class DataLoader implements CommandLineRunner {
         notes.setRecipeNotes(
                 "Be careful handling chiles if using. Wash your hands thoroughly after handling and do not touch your "
                 + "eyes or the area near your eyes with your hands for several hours");
+        notes.setRecipe(recipe);
         recipe.setNotes(notes);
 
         Category mexican = categoryRepository.findByDescription("Mexican").get();
@@ -128,117 +145,137 @@ public class DataLoader implements CommandLineRunner {
         recipe.setSource("simplyrecipes.com");
         recipe.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
 
-        recipeRepository.save(recipe);
+        return recipe;
     }
 
-    private void loadTacoRecipe() {
+    private Recipe loadTacoRecipe() {
 
         Recipe recipe = new Recipe();
+        recipe.setDescription("Grilled Chicken Tacos");
 
         Ingredient chiliPowder = new Ingredient();
         chiliPowder.setAmount(BigDecimal.valueOf(2));
         chiliPowder.setUom(getUom("Tablespoon"));
         chiliPowder.setDescription("ancho chili powder");
+        chiliPowder.setRecipe(recipe);
         recipe.getIngredients().add(chiliPowder);
         
         Ingredient oregano = new Ingredient();
         oregano.setAmount(BigDecimal.valueOf(1));
         oregano.setUom(getUom("Teaspoon"));
         oregano.setDescription("dried oregano");
+        oregano.setRecipe(recipe);
         recipe.getIngredients().add(oregano);
         
         Ingredient cumin = new Ingredient();
         cumin.setAmount(BigDecimal.valueOf(1));
         cumin.setUom(getUom("Teaspoon"));
         cumin.setDescription("dried cumin");
+        cumin.setRecipe(recipe);
         recipe.getIngredients().add(cumin);
 
         Ingredient sugar = new Ingredient();
         sugar.setAmount(BigDecimal.valueOf(1));
         sugar.setUom(getUom("Teaspoon"));
         sugar.setDescription("sugar");
+        sugar.setRecipe(recipe);
         recipe.getIngredients().add(sugar);
         
         Ingredient salt = new Ingredient();
         salt.setAmount(BigDecimal.valueOf(.5));
         salt.setUom(getUom("Teaspoon"));
         salt.setDescription("salt");
+        salt.setRecipe(recipe);
         recipe.getIngredients().add(salt);
 
         Ingredient garlic = new Ingredient();
         garlic.setAmount(BigDecimal.valueOf(1));
         garlic.setUom(getUom("Clove"));
         garlic.setDescription("garlic, finely chopped");
+        garlic.setRecipe(recipe);
         recipe.getIngredients().add(garlic);
 
         Ingredient zest = new Ingredient();
         zest.setAmount(BigDecimal.valueOf(1));
         zest.setUom(getUom("Tablespoon"));
         zest.setDescription("finely grated orange zest");
+        zest.setRecipe(recipe);
         recipe.getIngredients().add(zest);
 
         Ingredient juice = new Ingredient();
         juice.setAmount(BigDecimal.valueOf(3));
         juice.setUom(getUom("Tablespoons"));
         juice.setDescription("fresh-squeezed orange juice");
+        juice.setRecipe(recipe);
         recipe.getIngredients().add(juice);
 
         Ingredient oliveOil = new Ingredient();
         oliveOil.setAmount(BigDecimal.valueOf(2));
         oliveOil.setUom(getUom("Tablespoon"));
         oliveOil.setDescription("olive oil");
+        oliveOil.setRecipe(recipe);
         recipe.getIngredients().add(oliveOil);
 
         Ingredient chicken = new Ingredient();
         chicken.setAmount(BigDecimal.valueOf(6));
         chicken.setDescription("skinless, boneless chicken thighs");
+        chicken.setRecipe(recipe);
         recipe.getIngredients().add(chicken);
 
         Ingredient tortillas = new Ingredient();
         tortillas.setAmount(BigDecimal.valueOf(8));
         tortillas.setDescription("small corn tortillas");
+        tortillas.setRecipe(recipe);
         recipe.getIngredients().add(tortillas);
 
         Ingredient arugula = new Ingredient();
         arugula.setAmount(BigDecimal.valueOf(3));
         arugula.setUom(getUom("Cup"));
         arugula.setDescription("packed baby arugula");
+        arugula.setRecipe(recipe);
         recipe.getIngredients().add(arugula);
 
         Ingredient avocados = new Ingredient();
         avocados.setAmount(BigDecimal.valueOf(2));
         avocados.setDescription("medium ripe avocados, sliced");
+        avocados.setRecipe(recipe);
         recipe.getIngredients().add(avocados);
 
         Ingredient radishes = new Ingredient();
         radishes.setAmount(BigDecimal.valueOf(4));
         radishes.setDescription("thinly sliced");
+        radishes.setRecipe(recipe);
         recipe.getIngredients().add(radishes);
 
         Ingredient cherryTomatoes = new Ingredient();
         cherryTomatoes.setAmount(BigDecimal.valueOf(.5));
         cherryTomatoes.setUom(getUom("Pint"));
         cherryTomatoes.setDescription("cherry tomatoes, halved");
+        cherryTomatoes.setRecipe(recipe);
         recipe.getIngredients().add(cherryTomatoes);
 
         Ingredient redOnion = new Ingredient();
         redOnion.setAmount(BigDecimal.valueOf(.25));
         redOnion.setDescription("red onion, thinly sliced");
+        redOnion.setRecipe(recipe);
         recipe.getIngredients().add(redOnion);
 
         Ingredient cilantro = new Ingredient();
         cilantro.setDescription("Roughly chopped cilantro");
+        cilantro.setRecipe(recipe);
         recipe.getIngredients().add(cilantro);
         
         Ingredient sourCream = new Ingredient();
         sourCream.setAmount(BigDecimal.valueOf(.5));
         sourCream.setUom(getUom("Cup"));
         sourCream.setDescription("sour cream");
+        sourCream.setRecipe(recipe);
         recipe.getIngredients().add(sourCream);
 
         Ingredient lime = new Ingredient();
         lime.setAmount(BigDecimal.valueOf(1));
         lime.setDescription("lime");
+        lime.setRecipe(recipe);
         recipe.getIngredients().add(lime);
 
         recipe.setDirections(
@@ -267,6 +304,6 @@ public class DataLoader implements CommandLineRunner {
         recipe.setSource("simplyrecipes.com");
         recipe.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
 
-        recipeRepository.save(recipe);
+        return recipe;
     }
 }
