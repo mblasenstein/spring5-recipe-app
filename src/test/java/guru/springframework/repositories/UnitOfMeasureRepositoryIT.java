@@ -36,6 +36,6 @@ public class UnitOfMeasureRepositoryIT {
     public void findByDescriptionCup() throws Exception {
         Optional<UnitOfMeasure> uomOptional = unitOfMeasureRepository.findByDescription("Cup");
 
-        assertEquals("gdsfsdgfdsgf", uomOptional.get().getDescription());
+        assertEquals("Cup", uomOptional.get().getDescription());
     }
 }
