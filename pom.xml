@@ -21,6 +21,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<mockito-junit-jupiter.version>3.0.0</mockito-junit-jupiter.version>
+		<mockito-core.version>2.24.0</mockito-core.version>
 		<java.version>1.8</java.version>
 	</properties>
 
@@ -54,8 +56,49 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.webjars.bower</groupId>-->
+<!--			<artifactId>jquery</artifactId>-->
+<!--			<version>3.4.1</version>-->
+<!--		</dependency>-->
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>mockito</groupId>
+					<artifactId>mockito</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>${mockito-core.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${mockito-junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
