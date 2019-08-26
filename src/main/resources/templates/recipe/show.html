@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>List of Recipes</title>
+    <title>Recipe</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
           th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
@@ -101,7 +101,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <p th:text="${recipe.directions}"></p>
+                                <p th:utext="${#strings.replace( #strings.escapeXml( recipe.directions ),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></p>
                             </div>
                         </div>
                     </div>
