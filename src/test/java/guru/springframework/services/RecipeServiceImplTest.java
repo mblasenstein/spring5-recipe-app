@@ -1,11 +1,16 @@
 package guru.springframework.services;
 
+import guru.springframework.converters.RecipeCommandToRecipe;
+import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
 import guru.springframework.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -15,18 +20,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
+@ExtendWith(MockitoExtension.class)
 public class RecipeServiceImplTest {
-
-    RecipeServiceImpl recipeService;
 
     @Mock
     RecipeRepository recipeRepository;
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
-    }
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @InjectMocks
+    RecipeServiceImpl recipeService;
 
     @Test
     public void getRecipeByIdTest() throws Exception {
