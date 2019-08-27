@@ -24,14 +24,16 @@ public class IngredientToIngredientCommand implements Converter<Ingredient, Ingr
             return null;
         }
 
-        IngredientCommand ingredientCommand = new IngredientCommand();
+        final IngredientCommand ingredientCommand = new IngredientCommand();
+
         ingredientCommand.setId(ingredient.getId());
-        ingredientCommand.setAmount(ingredient.getAmount());
         if (ingredient.getRecipe() != null) {
             ingredientCommand.setRecipeId(ingredient.getRecipe().getId());
         }
+        ingredientCommand.setAmount(ingredient.getAmount());
         ingredientCommand.setDescription(ingredient.getDescription());
         ingredientCommand.setUnitOfMeasure(uomConverter.convert(ingredient.getUom()));
+
         return ingredientCommand;
     }
 }
