@@ -110,7 +110,7 @@
                                         <li>
                                             <th:block >
                                                 <th:block th:text="${ingredient.amount != null ? ingredient.amount + ' ' : ''}"/>
-                                                <th:block th:if="${ingredient.unitOfMeasure != null ? ingredient.unitOfMeasure.description + ' ': ''}"/>
+                                                <th:block th:if="${ingredient.unitOfMeasure != null ? ingredient.unitOfMeasure.description + ' ' : ''}"/>
                                                 <th:block th:utext="${ingredient.description} + '&lt;br/&gt;'"/>
                                             </th:block>
                                         </li>
