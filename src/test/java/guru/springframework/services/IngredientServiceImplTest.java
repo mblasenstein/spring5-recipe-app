@@ -7,6 +7,7 @@ import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
+import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,9 @@ public class IngredientServiceImplTest {
     @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
 
+    @Mock
+    IngredientRepository ingredientRepository;
+
     IngredientServiceImpl ingredientService;
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
@@ -45,7 +49,7 @@ public class IngredientServiceImplTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        ingredientService = new IngredientServiceImpl(ingredientCommandToIngredient, ingredientToIngredientCommand, recipeRepository, unitOfMeasureRepository);
+        ingredientService = new IngredientServiceImpl(ingredientCommandToIngredient, ingredientToIngredientCommand, ingredientRepository, recipeRepository, unitOfMeasureRepository);
     }
 
     @Test
@@ -106,6 +110,14 @@ public class IngredientServiceImplTest {
         assertEquals(Long.valueOf(3L), savedCommand.getId());
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, times(1)).save(any(Recipe.class));
+    }
 
+    @Test
+    public void testDeleteIngredientCommand() throws Exception {
+        // when
+        ingredientService.deleteIngredientFromRecipe(2L);
+
+        // then
+        verify(ingredientRepository, times(1)).deleteById(anyLong());
     }
 }

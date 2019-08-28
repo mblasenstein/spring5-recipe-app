@@ -5,7 +5,7 @@ import guru.springframework.converters.IngredientCommandToIngredient;
 import guru.springframework.converters.IngredientToIngredientCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
-import guru.springframework.domain.UnitOfMeasure;
+import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +23,20 @@ public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
+    private final IngredientRepository ingredientRepository;
     private final RecipeRepository recipeRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
 
-    public IngredientServiceImpl(IngredientCommandToIngredient ingredientCommandToIngredient, IngredientToIngredientCommand ingredientToIngredientCommand, RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public IngredientServiceImpl(
+            IngredientCommandToIngredient ingredientCommandToIngredient,
+            IngredientToIngredientCommand ingredientToIngredientCommand,
+            IngredientRepository ingredientRepository,
+            RecipeRepository recipeRepository,
+            UnitOfMeasureRepository unitOfMeasureRepository
+    ) {
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
+        this.ingredientRepository = ingredientRepository;
         this.recipeRepository = recipeRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
@@ -111,5 +119,12 @@ public class IngredientServiceImpl implements IngredientService {
 
         // todo check for fail
         return ingredientToIngredientCommand.convert(savedIngredientOptional.get());
+    }
+
+
+    @Override
+    @Transactional
+    public void deleteIngredientFromRecipe(Long ingredientId) {
+        ingredientRepository.deleteById(ingredientId);
     }
 }
