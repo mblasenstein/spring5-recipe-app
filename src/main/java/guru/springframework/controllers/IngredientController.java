@@ -60,10 +60,9 @@ public class IngredientController {
         //need to return back parent id for hidden form property
         IngredientCommand ingredientCommand = new IngredientCommand();
         ingredientCommand.setRecipeId(Long.valueOf(recipeId));
-        model.addAttribute("ingredient", ingredientCommand);
-
         //init uom
         ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+        model.addAttribute("ingredient", ingredientCommand);
 
         model.addAttribute("uomList",  unitOfMeasureService.listAllUoms());
 
@@ -81,12 +80,12 @@ public class IngredientController {
 
     @PostMapping
     @RequestMapping("recipe/{recipeId}/ingredient")
-    public String updateRecipeIngredient(@ModelAttribute IngredientCommand command) {
+    public String saveOrUpdate(@ModelAttribute IngredientCommand command) {
         IngredientCommand savedCommand = ingredientService.saveIngredientCommand(command);
 
         log.debug(String.format("saved recipe id: %s", savedCommand.getRecipeId()));
         log.debug(String.format("saved ingredient id: %s", savedCommand.getId()));
 
-        return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId() + "/show";
+        return "redirect:/recipe/" + savedCommand.getRecipeId() + "/ingredient/" + savedCommand.getId();
     }
 }

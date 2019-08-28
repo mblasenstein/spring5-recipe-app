@@ -53,6 +53,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient avocados = new Ingredient();
         avocados.setAmount(BigDecimal.valueOf(2));
+        avocados.setUom(getUom("Each"));
         avocados.setDescription("avocados");
         avocados.setRecipe(recipe);
         recipe.getIngredients().add(avocados);
@@ -77,9 +78,10 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         onion.setDescription("minced red onion or thinly sliced green onion");
         onion.setRecipe(recipe);
         recipe.getIngredients().add(onion);
-        
+
         Ingredient chiles = new Ingredient();
         chiles.setAmount(BigDecimal.valueOf(1));
+        chiles.setUom(getUom("Each"));
         chiles.setDescription("serrano chiles, stems and seeds removed, minced");
         chiles.setRecipe(recipe);
         recipe.getIngredients().add(chiles);
@@ -92,6 +94,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         recipe.getIngredients().add(cilantro);
         
         Ingredient pepper = new Ingredient();
+        pepper.setAmount(BigDecimal.valueOf(1));
         pepper.setUom(getUom("Dash"));
         pepper.setDescription("freshly ground pepper");
         pepper.setRecipe(recipe);
@@ -99,6 +102,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
         
         Ingredient tomato = new Ingredient();
         tomato.setAmount(BigDecimal.valueOf(.5));
+        tomato.setUom(getUom("Each"));
         tomato.setDescription("tomato, seeds and pulp removed, chopped");
         tomato.setRecipe(recipe);
         recipe.getIngredients().add(tomato);
@@ -218,12 +222,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient chicken = new Ingredient();
         chicken.setAmount(BigDecimal.valueOf(6));
+        chicken.setUom(getUom("Each"));
         chicken.setDescription("skinless, boneless chicken thighs");
         chicken.setRecipe(recipe);
         recipe.getIngredients().add(chicken);
 
         Ingredient tortillas = new Ingredient();
         tortillas.setAmount(BigDecimal.valueOf(8));
+        tortillas.setUom(getUom("Each"));
         tortillas.setDescription("small corn tortillas");
         tortillas.setRecipe(recipe);
         recipe.getIngredients().add(tortillas);
@@ -237,12 +243,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient avocados = new Ingredient();
         avocados.setAmount(BigDecimal.valueOf(2));
+        avocados.setUom(getUom("Each"));
         avocados.setDescription("medium ripe avocados, sliced");
         avocados.setRecipe(recipe);
         recipe.getIngredients().add(avocados);
 
         Ingredient radishes = new Ingredient();
         radishes.setAmount(BigDecimal.valueOf(4));
+        radishes.setUom(getUom("Each"));
         radishes.setDescription("thinly sliced");
         radishes.setRecipe(recipe);
         recipe.getIngredients().add(radishes);
@@ -256,11 +264,14 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient redOnion = new Ingredient();
         redOnion.setAmount(BigDecimal.valueOf(.25));
+        redOnion.setUom(getUom("Each"));
         redOnion.setDescription("red onion, thinly sliced");
         redOnion.setRecipe(recipe);
         recipe.getIngredients().add(redOnion);
 
         Ingredient cilantro = new Ingredient();
+        cilantro.setAmount(BigDecimal.valueOf(1));
+        cilantro.setUom(getUom("Each"));
         cilantro.setDescription("Roughly chopped cilantro");
         cilantro.setRecipe(recipe);
         recipe.getIngredients().add(cilantro);
@@ -274,6 +285,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient lime = new Ingredient();
         lime.setAmount(BigDecimal.valueOf(1));
+        lime.setUom(getUom("Each"));
         lime.setDescription("lime");
         lime.setRecipe(recipe);
         recipe.getIngredients().add(lime);
