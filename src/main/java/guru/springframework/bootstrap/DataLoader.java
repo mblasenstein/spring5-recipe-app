@@ -208,7 +208,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
         Ingredient juice = new Ingredient();
         juice.setAmount(BigDecimal.valueOf(3));
-        juice.setUom(getUom("Tablespoons"));
+        juice.setUom(getUom("Tablespoon"));
         juice.setDescription("fresh-squeezed orange juice");
         juice.setRecipe(recipe);
         recipe.getIngredients().add(juice);

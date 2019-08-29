@@ -1,5 +1,6 @@
 package guru.springframework.services;
 
+import guru.springframework.commands.IngredientCommand;
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
@@ -59,7 +60,9 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     @Transactional
     public RecipeCommand findCommandById(Long id) {
-        return recipeToRecipeCommand.convert(findById(id));
+        Recipe rr = findById(id);
+        RecipeCommand r = recipeToRecipeCommand.convert(rr);
+        return r;
     }
 
     @Override

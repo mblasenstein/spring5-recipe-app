@@ -7,7 +7,6 @@ import guru.springframework.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import guru.springframework.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import guru.springframework.domain.Ingredient;
 import guru.springframework.domain.Recipe;
-import guru.springframework.repositories.IngredientRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,10 +29,6 @@ public class IngredientServiceImplTest {
 
     @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
-
-    @Mock
-    IngredientRepository ingredientRepository;
-
     IngredientServiceImpl ingredientService;
 
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
@@ -49,7 +44,7 @@ public class IngredientServiceImplTest {
     @BeforeEach
     public void setUp() throws Exception {
 
-        ingredientService = new IngredientServiceImpl(ingredientCommandToIngredient, ingredientToIngredientCommand, ingredientRepository, recipeRepository, unitOfMeasureRepository);
+        ingredientService = new IngredientServiceImpl(ingredientCommandToIngredient, ingredientToIngredientCommand, recipeRepository, unitOfMeasureRepository);
     }
 
     @Test
@@ -114,10 +109,25 @@ public class IngredientServiceImplTest {
 
     @Test
     public void testDeleteIngredientCommand() throws Exception {
+        // given
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        Ingredient ingredient = new Ingredient();
+        ingredient.setId(2L);
+        recipe.getIngredients().add(ingredient);
+
+        Ingredient ingredient2 = new Ingredient();
+        ingredient2.setId(3L);
+        recipe.getIngredients().add(ingredient2);
+
+        when(recipeRepository.findById(1L)).thenReturn(Optional.of(recipe));
+
         // when
-        ingredientService.deleteIngredientFromRecipe(2L);
+        ingredientService.deleteIngredientFromRecipe(1L, 2L);
 
         // then
-        verify(ingredientRepository, times(1)).deleteById(anyLong());
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).save(any(Recipe.class));
     }
 }
