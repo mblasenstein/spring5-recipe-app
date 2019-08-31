@@ -91,8 +91,8 @@
                                     <select class="form-control" th:field="*{difficulty}">
                                         <!--/*@thymesVar id="difficultyValue" type="guru.springframework.domain.Difficulty"*/-->
                                         <option th:each="difficultyValue : ${T(guru.springframework.domain.Difficulty).values()}"
-                                                th:value="${difficultyValue.name}"
-                                                th:text="${difficultyValue.name}"
+                                                th:value="${difficultyValue.name()}"
+                                                th:text="${difficultyValue.name()}"
                                         >val
                                         </option>
                                     </select>
@@ -152,7 +152,7 @@
                                         <li th:remove="all">asdf</li>
                                         <li th:each="ingredient : ${recipe.ingredients}"
                                             th:text="${(ingredient.getAmount() +
-                                        ' ' + ingredient.uom.getDescription() +
+                                        ' ' + ingredient.unitOfMeasure.description +
                                         ' - ' + ingredient.getDescription())}">1 Teaspoon of Sugar
                                         </li>
                                     </ul>
