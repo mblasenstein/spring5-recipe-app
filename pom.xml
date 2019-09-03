@@ -107,15 +107,16 @@
 			<version>${mockito-junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.nickwongdev</groupId>
-			<artifactId>aspectj-maven-plugin</artifactId>
-			<version>1.12.1</version>
-		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.nickwongdev</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<version>1.12.1</version>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -128,6 +129,9 @@
 					<includes>
 						<include>**/*IT.java</include>
 					</includes>
+					<argLine>
+						--illegal-access=permit
+					</argLine>
 					<additionalClasspathElements>
 						<additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
 					</additionalClasspathElements>
@@ -141,6 +145,14 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
