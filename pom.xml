@@ -107,6 +107,11 @@
 			<version>${mockito-junit-jupiter.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.nickwongdev</groupId>
+			<artifactId>aspectj-maven-plugin</artifactId>
+			<version>1.12.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
