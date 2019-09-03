@@ -34,4 +34,4 @@ jobs: # a collection of steps
 
       - run:
         name: Send to CodeCov
-        command: bash <(crl -s https://codecov.io/bash)
+        command: bash <(curl -s https://codecov.io/bash)
