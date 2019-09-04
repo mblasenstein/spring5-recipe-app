@@ -3,17 +3,18 @@ spring:
     url: jdbc:mysql://localhost:5508/sfg_dev?serverTimezone=UTC
     username: sfg_dev_user
     password: dev_pass
+    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: validate
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     database: mysql
     show-sql: true
-    properties:
-      javax:
-        persistence:
-          schema-generation:
-            create-source: metadata
-            scripts:
-              action: create
-              create-target: recipe_database_create_sql
+#    properties:
+#      javax:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: recipe_database_create.sql
